@@ -1,14 +1,16 @@
 #include <exception>
+#include <string>
 
 class MyException : public std::exception
 {
-	const char *message;
+	const std::string message;
 
 	virtual const char* what() const throw()
 	{
-		return message;
+		return message.c_str();
 	}
 
 public:
-	MyException(const char *m) : message(m) {}
+	MyException(const std::string m) : message(m) {}
+	virtual ~MyException() throw() {}
 };
