@@ -7,9 +7,9 @@
 namespace
 {
 	MyException SiteswapPrintException(
-		"Pattern cannot be represented in siteswap notation");
+		"pattern cannot be represented in siteswap notation");
 	MyException InvalidPatternException(
-		"Invalid pattern");
+		"invalid pattern");
 }
 
 SiteswapThrow::SiteswapThrow(size_t h, size_t c) :
@@ -87,7 +87,7 @@ namespace
 		void parseChar(char c, std::string message)
 		{
 			if (i == string.size() || string[i] != c)
-				throw new SiteswapParserException(i, message);
+				throw SiteswapParserException(i, message);
 			++i;
 		}
 
@@ -98,7 +98,7 @@ namespace
 				return string[i++] - '0';
 			if (string[i] >= 'a' && string[i] <= 'z')
 				return string[i++] - 'z';
-			throw new SiteswapParserException(i,
+			throw SiteswapParserException(i,
 				"expected alphanumeric throw height");
 		}
 
@@ -165,6 +165,16 @@ namespace
 					pattern[beat][1] = r;
 					beat += skip;
 				}
+				else if (string[i] == '*')
+				{
+					++i;
+					// ??? handle it
+
+					if (i != string.size())
+						throw SiteswapParserException(i,
+							"expected end of string");
+					break;
+				}
 				else
 				{
 					SiteswapHand h = parseHand();
@@ -213,6 +223,9 @@ namespace
 SiteswapPattern::SiteswapPattern(const std::string s)
 {
 	SiteswapParser parse(pattern, s);
+
+	// ??? get rid of redundant repetition if we have parsed e.g. "5353"
+	// instead of just "53"
 
 	// Check that the pattern is valid.
 	boost::multi_array<size_t, 2>
