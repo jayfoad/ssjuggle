@@ -1,9 +1,10 @@
+#include <cassert>
+
 #include "MyException.h"
 #include "Siteswap.h"
 
 namespace
 {
-	MyException IllegalArgumentException("Illegal argument");
 	MyException SiteswapPrintException(
 		"Pattern cannot be represented in siteswap notation");
 	MyException InvalidPatternException(
@@ -14,11 +15,8 @@ SiteswapThrow::SiteswapThrow(size_t h, size_t c) :
 	height(h),
 	cross(c)
 {
-	if (h == 0)
-		throw IllegalArgumentException;
-
-	if (c >= NumberOfHands)
-		throw IllegalArgumentException;
+	assert(h != 0);
+	assert(c < NumberOfHands);
 }
 
 void SiteswapThrow::print(std::ostream& out) const
