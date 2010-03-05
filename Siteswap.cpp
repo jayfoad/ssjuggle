@@ -1,4 +1,5 @@
 #include <cassert>
+#include <iostream>
 
 #include "MyException.h"
 #include "Siteswap.h"
@@ -36,7 +37,7 @@ void SiteswapThrow::print(std::ostream& out) const
 		throw SiteswapPrintException;
 	}
 
-	if (cross != 0)
+	if (cross != (height & 1))
 		out << 'x';
 }
 
@@ -173,6 +174,25 @@ namespace
 					beat += 1;
 					hand = (hand + 1) % NumberOfHands;
 				}
+			}
+
+			// Odd-length patterns implicitly start again with the other hand.
+			// Make that explicit in the array.
+			if (beat & 1)
+			{
+				pattern.resize(extents[beat * 2][NumberOfHands]);
+				pattern[boost::indices
+					[boost::multi_array_types::index_range(beat, beat * 2)]
+					[boost::multi_array_types::index_range(0, 1)]] =
+					pattern[boost::indices
+						[boost::multi_array_types::index_range(0, beat)]
+						[boost::multi_array_types::index_range(1, 2)]];
+				pattern[boost::indices
+					[boost::multi_array_types::index_range(beat, beat * 2)]
+					[boost::multi_array_types::index_range(1, 2)]] =
+					pattern[boost::indices
+						[boost::multi_array_types::index_range(0, beat)]
+						[boost::multi_array_types::index_range(0, 1)]];
 			}
 		}
 
