@@ -119,7 +119,10 @@ namespace
 			assert(i != string.size());
 
 			if (string[i] == '0')
+			{
+				++i;
 				return SiteswapHand();
+			}
 
 			std::vector<SiteswapThrow> v;
 			if (string[i] == '[')
