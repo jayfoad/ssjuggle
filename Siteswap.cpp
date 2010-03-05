@@ -77,9 +77,10 @@ namespace
 
 	class SiteswapParser
 	{
-		SiteswapPattern* pattern;
+		boost::multi_array<SiteswapHand, 2>& pattern;
 		const std::string string;
 		size_t i;
+		size_t beat;
 		size_t hand;
 
 		void parseChar(char c, std::string message)
@@ -137,38 +138,60 @@ namespace
 
 		void parse()
 		{
+			boost::multi_array<SiteswapHand, 2>::extent_gen extents;
+
 			while (i != string.size())
 			{
 				if (string[i] == '(')
 				{
 					++i;
-					parseHand();
+					SiteswapHand l = parseHand();
 					parseChar(',', "expected \",\"");
-					parseHand();
+					SiteswapHand r = parseHand();
 					parseChar(')', "expected \")\"");
+
+					size_t skip;
+					if (i != string.size() && string[i] == '!')
+						skip = 1;
+					else
+						skip = 2;
+
+					pattern.resize(extents[beat + skip][NumberOfHands]);
+					pattern[beat][0] = l;
+					pattern[beat][1] = r;
+					beat += skip;
 				}
 				else
 				{
-					parseHand();
+					SiteswapHand h = parseHand();
+
+					pattern.resize(extents[beat + 1][NumberOfHands]);
+					pattern[beat][hand] = h;
+					beat += 1;
+					hand = (hand + 1) % NumberOfHands;
 				}
 			}
 		}
 
 	public:
-		SiteswapParser(SiteswapPattern* p, const std::string s) :
+		SiteswapParser(boost::multi_array<SiteswapHand, 2>& p,
+			const std::string s) :
 			pattern(p),
 			string(s),
 			i(0),
+			beat(0),
 			hand(0)
 		{
 			parse();
+
+			// ??? check valid pattern
 		}
 	};
 }
 
 SiteswapPattern::SiteswapPattern(const std::string s)
 {
-	SiteswapParser parse(this, s);
+	SiteswapParser parse(pattern, s);
 	// ??? rotate to put largest throw first ?
 }
 
