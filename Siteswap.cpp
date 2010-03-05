@@ -6,6 +6,8 @@ namespace
 	MyException IllegalArgumentException("Illegal argument");
 	MyException SiteswapPrintException(
 		"Pattern cannot be represented in siteswap notation");
+	MyException InvalidPatternException(
+		"Invalid pattern");
 }
 
 SiteswapThrow::SiteswapThrow(size_t h, size_t c) :
@@ -41,23 +43,23 @@ void SiteswapThrow::print(std::ostream& out) const
 }
 
 SiteswapHand::SiteswapHand(const std::vector<SiteswapThrow>& t) :
-	hand(t)
+	throws(t)
 {
 	// ??? sort throws into decreasing order
 }
 
 void SiteswapHand::print(std::ostream& out) const
 {
-	if (hand.empty())
+	if (throws.empty())
 		// It's conventional to use "0" instead of "[]".
 		out << '0';
-	else if (hand.size() == 1)
-		hand[0].print(out);
+	else if (throws.size() == 1)
+		throws[0].print(out);
 	else
 	{
 		out << '[';
-		for (size_t i = 0, e = hand.size(); i != e; ++i)
-			hand[i].print(out);
+		for (size_t i = 0, e = throws.size(); i != e; ++i)
+			throws[i].print(out);
 		out << ']';
 	}
 }
@@ -183,8 +185,6 @@ namespace
 			hand(0)
 		{
 			parse();
-
-			// ??? check valid pattern
 		}
 	};
 }
@@ -192,14 +192,46 @@ namespace
 SiteswapPattern::SiteswapPattern(const std::string s)
 {
 	SiteswapParser parse(pattern, s);
-	// ??? rotate to put largest throw first ?
+
+	// Check that the pattern is valid.
+	boost::multi_array<size_t, 2>
+		check(boost::extents[getBeats()][NumberOfHands]);
+	for (size_t b = 0; b != getBeats(); ++b)
+	{
+		for (size_t h = 0; h != NumberOfHands; ++h)
+		{
+			const std::vector<SiteswapThrow>& throws =
+				pattern[b][h].getThrows();
+			for (size_t i = 0; i != throws.size(); ++i)
+			{
+				const SiteswapThrow& t = throws[i];
+				++check
+					[(b + t.getHeight()) % getBeats()]
+					[(h + t.getCross()) % NumberOfHands];
+			}
+		}
+	}
+	for (size_t b = 0; b != getBeats(); ++b)
+	{
+		for (size_t h = 0; h != NumberOfHands; ++h)
+		{
+			if (check[b][h] != pattern[b][h].getThrows().size())
+				// ??? provide friendly diagnostics
+				throw InvalidPatternException;
+		}
+	}
 }
 
 void SiteswapPattern::print(std::ostream& out) const
 {
-	for (size_t i = 0, e = pattern.shape()[0]; i != e; ++i)
+	// ??? implement properly
+
+	// ??? rotate to put largest throw first ? or to try to start pattern from
+	// ground state ?
+
+	for (size_t b = 0; b != getBeats(); ++b)
 	{
-		pattern[i][0].print(out);
-		pattern[i][1].print(out);
+		pattern[b][0].print(out);
+		pattern[b][1].print(out);
 	}
 }
