@@ -44,7 +44,8 @@ void SiteswapThrow::print(std::ostream& out) const
 SiteswapHand::SiteswapHand(const std::vector<SiteswapThrow>& t) :
 	throws(t)
 {
-	// ??? sort throws into decreasing order
+	// Sort the throws.
+	std::sort(throws.begin(), throws.end());
 }
 
 void SiteswapHand::print(std::ostream& out) const
@@ -57,8 +58,9 @@ void SiteswapHand::print(std::ostream& out) const
 	else
 	{
 		out << '[';
-		for (size_t i = 0, e = throws.size(); i != e; ++i)
-			throws[i].print(out);
+		// Print the throws in decreasing order.
+		for (size_t i = throws.size(); i != 0; )
+			throws[--i].print(out);
 		out << ']';
 	}
 }
@@ -248,14 +250,32 @@ SiteswapPattern::SiteswapPattern(const std::string s)
 
 void SiteswapPattern::print(std::ostream& out) const
 {
-	// ??? implement properly
-
 	// ??? rotate to put largest throw first ? or to try to start pattern from
 	// ground state ?
 
-	for (size_t b = 0; b != getBeats(); ++b)
+	size_t h = 0;
+	for (size_t b = 0; b != getBeats(); )
 	{
-		pattern[b][0].print(out);
-		pattern[b][1].print(out);
+		if (pattern[b][h ^ 1].getThrows().empty())
+		{
+			pattern[b][h].print(out);
+			++b;
+			h = (h + 1) % NumberOfHands;
+		}
+		else
+		{
+			out << '(';
+			pattern[b][0].print(out);
+			out << ',';
+			pattern[b][1].print(out);
+			out << ')';
+			++b;
+			if (b != getBeats()
+				&& pattern[b][0].getThrows().empty()
+				&& pattern[b][1].getThrows().empty())
+				++b;
+			else
+				out << '!';
+		}
 	}
 }

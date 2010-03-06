@@ -23,6 +23,13 @@ public:
 	size_t getHeight() const { return height; }
 	size_t getCross() const { return cross; }
 
+	// Operators.
+	bool operator< (const SiteswapThrow& rhs) const
+	{
+		return height < rhs.height
+			|| (height == rhs.height && cross < rhs.cross);
+	}
+
 	// Print to a stream.
 	void print(std::ostream& out) const;
 };
