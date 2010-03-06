@@ -37,8 +37,12 @@ void SiteswapThrow::print(std::ostream& out) const
 		throw SiteswapPrintException;
 	}
 
-	if (cross != (height & 1))
+	size_t c = cross;
+	while (c != height % NumberOfHands)
+	{
 		out << 'x';
+		c = (c + 1) % NumberOfHands;
+	}
 }
 
 SiteswapHand::SiteswapHand(const std::vector<SiteswapThrow>& t) :
@@ -108,11 +112,11 @@ namespace
 		{
 			assert(i != string.size());
 			size_t height = parseHeight();
-			size_t cross = height & 1U;
-			if (i != string.size() && string[i] == 'x')
+			size_t cross = height % NumberOfHands;
+			while (i != string.size() && string[i] == 'x')
 			{
 				++i;
-				cross ^= 1U;
+				cross = (cross + 1) % NumberOfHands;
 			}
 			return SiteswapThrow(height, cross);
 		}

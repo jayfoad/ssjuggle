@@ -61,9 +61,6 @@ public:
 	// Construct from a string.
 	SiteswapPattern(const std::string s);
 
-	// Accessors.
-	// ???
-
 	// Convenience functions.
 	size_t getBeats() const { return pattern.shape()[0]; }
 
