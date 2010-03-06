@@ -165,13 +165,16 @@ namespace
 
 					size_t skip;
 					if (i != string.size() && string[i] == '!')
+					{
+						++i;
 						skip = 1;
+					}
 					else
 						skip = 2;
 
 					pattern.resize(extents[beat + skip][NumberOfHands]);
-					pattern[beat][0] = l;
-					pattern[beat][1] = r;
+					pattern[beat][1] = l;
+					pattern[beat][0] = r;
 					beat += skip;
 				}
 				else if (string[i] == '*')
@@ -246,8 +249,10 @@ SiteswapPattern::SiteswapPattern(const std::string s)
 		for (size_t h = 0; h != NumberOfHands; ++h)
 		{
 			if (check[b][h] != pattern[b][h].getThrows().size())
+			{
 				// ??? provide friendly diagnostics
 				throw InvalidPatternException;
+			}
 		}
 	}
 }
@@ -269,14 +274,14 @@ void SiteswapPattern::print(std::ostream& out) const
 		else
 		{
 			out << '(';
-			pattern[b][0].print(out);
-			out << ',';
 			pattern[b][1].print(out);
+			out << ',';
+			pattern[b][0].print(out);
 			out << ')';
 			++b;
 			if (b != getBeats()
-				&& pattern[b][0].getThrows().empty()
-				&& pattern[b][1].getThrows().empty())
+				&& pattern[b][1].getThrows().empty()
+				&& pattern[b][0].getThrows().empty())
 				++b;
 			else
 				out << '!';
