@@ -10,3 +10,8 @@ BADFILE = badpatterns
 check : ssparse $(GOODFILE) $(BADFILE)
 	for p in `cat $(GOODFILE)` ; do ./$< "$$p" || exit 1 ; done
 	for p in `cat $(BADFILE)` ; do ./$< "$$p" && exit 1 ; done || true
+
+%.d : %.cpp
+	$(CXX) -MM $(CPPFLAGS) $< | sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@
+
+-include $(patsubst %.cpp,%.d,$(wildcard *.cpp))
