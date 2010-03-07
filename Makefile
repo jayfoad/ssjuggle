@@ -1,6 +1,6 @@
 PACKAGES = cairomm-1.0 gtkmm-2.4
-CXXFLAGS = -g -Wall `pkg-config --cflags $(PACKAGES)`
-LDFLAGS = `pkg-config --libs $(PACKAGES)`
+CXXFLAGS = -g -Wall $(shell pkg-config --cflags $(PACKAGES))
+LDFLAGS = $(shell pkg-config --libs $(PACKAGES))
 
 all : ssparse ssjuggle
 
