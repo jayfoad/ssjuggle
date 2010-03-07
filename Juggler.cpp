@@ -4,39 +4,44 @@
 #include "Juggler.h"
 #include "Canvas.h"
 
+namespace
+{
+	const double gravity = -9.80665;
+}
+
 Juggler::Juggler(const SiteswapPattern& p) :
 	pattern(p),
-	beatsPerSecond(4.0f) // ??? 2.0 for <= 3 balls, 5.5 for >= 9 balls ?
+	beatsPerSecond(4.0) // ??? 2.0 for <= 3 balls, 5.5 for >= 9 balls ?
 {
 }
 
 void Juggler::getBoundingBox(/* out */ double& left, double& right,
 	double& bottom, double& top) const
 {
-	left = -0.25f;
-	right = +0.25f;
-	bottom = -0.80f;
-	top = 0.80f;
+	left = -0.25;
+	right = +0.25;
+	bottom = -0.80;
+	top = 0.80;
 }
 
 void Juggler::render(Canvas& c, double t) const
 {
 	// Legs
-	c.moveTo(-0.25f, -0.80f);
-	c.lineTo(0.00f, -0.10f);
-	c.lineTo(+0.25f, -0.80f);
+	c.moveTo(-0.25, -0.80);
+	c.lineTo(0.00, -0.10);
+	c.lineTo(+0.25, -0.80);
 
 	// Body
-	c.moveTo(0.00f, -0.10f);
-	c.lineTo(0.00f, 0.60f);
+	c.moveTo(0.00, -0.10);
+	c.lineTo(0.00, 0.60);
 
 	// Upper arms
-	c.moveTo(-0.25f, 0.00f);
-	c.lineTo(0.00f, 0.50f);
-	c.lineTo(+0.25f, 0.00f);
+	c.moveTo(-0.25, 0.00);
+	c.lineTo(0.00, 0.50);
+	c.lineTo(+0.25, 0.00);
 
 	// Head
-	c.circle(0.00f, 0.70f, 0.10f);
+	c.circle(0.00, 0.70, 0.10);
 
 	c.stroke();
 

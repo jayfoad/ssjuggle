@@ -7,6 +7,11 @@
 #include "Juggler.h"
 #include "Siteswap.h"
 
+namespace
+{
+	const double slowDown = 2.0;
+}
+
 class CairoCanvas : public Canvas
 {
 	Cairo::RefPtr<Cairo::Context> context;
@@ -101,7 +106,11 @@ protected:
 		}
 
 		CairoCanvas c(context);
-		juggler.render(c, 0.1f);
+
+		Glib::TimeVal t;
+		t.assign_current_time();
+
+		juggler.render(c, t.as_double() / slowDown);
 
 		return true;
 	}
