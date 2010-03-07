@@ -21,22 +21,22 @@ public:
 		context->set_source_rgb(0.0, 0.0, 0.0);
 	}
 
-	virtual void setColour(float r, float g, float b)
+	virtual void setColour(double r, double g, double b)
 	{
 		context->set_source_rgb(r, g, b);
 	}
 
-	virtual void moveTo(float x, float y)
+	virtual void moveTo(double x, double y)
 	{
 		context->move_to(x, y);
 	}
 
-	virtual void lineTo(float x, float y)
+	virtual void lineTo(double x, double y)
 	{
 		context->line_to(x, y);
 	}
 
-	virtual void circle(float x, float y, float r)
+	virtual void circle(double x, double y, double r)
 	{
 		context->begin_new_sub_path();
 		context->arc(x, y, r, 0, 2 * M_PI);
@@ -85,10 +85,10 @@ protected:
 		}
 
 		{
-			float left;
-			float right;
-			float bottom;
-			float top;
+			double left;
+			double right;
+			double bottom;
+			double top;
 			juggler.getBoundingBox(left, right, bottom, top);
 
 			context->translate(width / 2.0, height / 2.0);

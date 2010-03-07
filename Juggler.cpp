@@ -10,8 +10,8 @@ Juggler::Juggler(const SiteswapPattern& p) :
 {
 }
 
-void Juggler::getBoundingBox(/* out */ float& left, float& right,
-	float& bottom, float& top) const
+void Juggler::getBoundingBox(/* out */ double& left, double& right,
+	double& bottom, double& top) const
 {
 	left = -0.25f;
 	right = +0.25f;
@@ -19,7 +19,7 @@ void Juggler::getBoundingBox(/* out */ float& left, float& right,
 	top = 0.80f;
 }
 
-void Juggler::render(Canvas& c, float t) const
+void Juggler::render(Canvas& c, double t) const
 {
 	// Legs
 	c.moveTo(-0.25f, -0.80f);
@@ -42,7 +42,7 @@ void Juggler::render(Canvas& c, float t) const
 
 	// Get the fractional beat index.
 	assert(t >= 0);
-	float b = std::fmod(t * beatsPerSecond, pattern.getBeats());
+	double b = std::fmod(t * beatsPerSecond, pattern.getBeats());
 
 	// Render each throw.
 	for (size_t i = 0; i != pattern.getBeats(); ++i)
@@ -57,6 +57,6 @@ void Juggler::render(Canvas& c, float t) const
 	}
 }
 
-void Juggler::renderThrow(Canvas& c, const SiteswapThrow& t, float b) const
+void Juggler::renderThrow(Canvas& c, const SiteswapThrow& t, double b) const
 {
 }

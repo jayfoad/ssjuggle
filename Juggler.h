@@ -8,21 +8,21 @@ class Canvas;
 class Juggler
 {
 	SiteswapPattern pattern;
-	float beatsPerSecond;
+	double beatsPerSecond;
 
 public:
 	// Constructor.
 	Juggler(const SiteswapPattern& p);
 
 	// Get bounding box.
-	void getBoundingBox(/* out */ float& left, float& right,
-		float& bottom, float& top) const;
+	void getBoundingBox(/* out */ double& left, double& right,
+		double& bottom, double& top) const;
 
 	// Render scene at time t.
-	void render(Canvas& c, float t) const;
+	void render(Canvas& c, double t) const;
 
 protected:
-	void renderThrow(Canvas& c, const SiteswapThrow& t, float b) const;
+	void renderThrow(Canvas& c, const SiteswapThrow& t, double b) const;
 };
 
 #endif // JUGGLER_H
