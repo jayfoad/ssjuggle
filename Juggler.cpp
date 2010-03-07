@@ -15,28 +15,28 @@ void Juggler::getBoundingBox(/* out */ float& left, float& right,
 {
 	left = -0.25f;
 	right = +0.25f;
-	bottom = -1.20f;
-	top = 0.65f;
+	bottom = -0.80f;
+	top = 0.80f;
 }
 
 void Juggler::render(Canvas& c, float t) const
 {
 	// Legs
-	c.moveTo(-0.20f, -1.20f);
-	c.lineTo(0.00f, -0.30f);
-	c.lineTo(+0.20f, -1.20f);
+	c.moveTo(-0.25f, -0.80f);
+	c.lineTo(0.00f, -0.10f);
+	c.lineTo(+0.25f, -0.80f);
 
 	// Body
-	c.moveTo(0.00f, -0.30f);
-	c.lineTo(0.00f, 0.45f);
+	c.moveTo(0.00f, -0.10f);
+	c.lineTo(0.00f, 0.60f);
 
 	// Upper arms
 	c.moveTo(-0.25f, 0.00f);
-	c.lineTo(0.00f, 0.40f);
+	c.lineTo(0.00f, 0.50f);
 	c.lineTo(+0.25f, 0.00f);
 
 	// Head
-	c.circle(0.00f, 0.55f, 0.10f);
+	c.circle(0.00f, 0.70f, 0.10f);
 
 	c.stroke();
 

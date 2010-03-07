@@ -48,7 +48,11 @@ class MyDrawingArea : public Gtk::DrawingArea
 	const Juggler& juggler;
 
 public:
-	MyDrawingArea(const Juggler& j) : juggler(j) {}
+	MyDrawingArea(const Juggler& j) : juggler(j)
+	{
+		Glib::signal_timeout()
+			.connect(sigc::mem_fun(*this, &MyDrawingArea::on_timeout), 30);
+	}
 
 protected:
 	virtual bool on_expose_event(GdkEventExpose* event)
@@ -78,7 +82,7 @@ protected:
 			juggler.getBoundingBox(left, right, bottom, top);
 
 			context->translate(width / 2.0, height / 2.0);
-			double scale = 0.9
+			double scale = 0.8
 				* std::min(width / (right - left), height / (top - bottom));
 			context->scale(scale, -scale);
 			context->translate(-(left + right) / 2.0, -(top + bottom) / 2.0);
@@ -98,8 +102,9 @@ protected:
 		if (!window)
 			return true;
 
-		Gdk::Rectangle r(0, 0, get_allocation().get_width(),
-			get_allocation().get_height());
+		Gtk::Allocation allocation = get_allocation();
+		Gdk::Rectangle r(0, 0,
+			allocation.get_width(), allocation.get_height());
 		window->invalidate_rect(r, false);
 
 		return true;
