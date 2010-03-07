@@ -72,12 +72,16 @@ public:
 
 	// Convenience functions.
 	size_t getBeats() const { return pattern.shape()[0]; }
+	size_t getNumberOfBalls() const { return numberOfBalls; }
+	size_t getMaxThrowHeight() const { return maxThrowHeight; }
 
 	// Print to a stream.
 	void print(std::ostream& out) const;
 
 private:
 	PatternType pattern;
+	size_t numberOfBalls;
+	size_t maxThrowHeight;
 };
 
 #endif // SITESWAP_H
