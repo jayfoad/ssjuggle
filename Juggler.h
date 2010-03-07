@@ -22,7 +22,8 @@ public:
 	void render(Canvas& c, double t) const;
 
 protected:
-	void renderThrow(Canvas& c, const SiteswapThrow& t, double b) const;
+	void renderThrow(Canvas& c, size_t start, size_t hand,
+		const SiteswapThrow& t, double b) const;
 };
 
 #endif // JUGGLER_H
