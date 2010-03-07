@@ -1,8 +1,11 @@
 CXXFLAGS = -g -Wall
 
-all : ssparse
+all : ssparse ssjuggle
 
 ssparse : Siteswap.o SSParse.o Utility.o
+	$(LINK.cc) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+ssjuggle : Juggler.o Siteswap.o Utility.o
 	$(LINK.cc) $^ $(LOADLIBES) $(LDLIBS) -o $@
 
 GOODFILE = patterns

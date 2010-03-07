@@ -45,7 +45,7 @@ void SiteswapThrow::print(std::ostream& out) const
 	}
 }
 
-SiteswapHand::SiteswapHand(const std::vector<SiteswapThrow>& t) :
+SiteswapHand::SiteswapHand(const ThrowsType& t) :
 	throws(t)
 {
 	// Sort the throws.
@@ -133,7 +133,7 @@ namespace
 				return SiteswapHand();
 			}
 
-			std::vector<SiteswapThrow> v;
+			SiteswapHand::ThrowsType v;
 			if (string[i] == '[')
 			{
 				++i;
@@ -233,8 +233,7 @@ SiteswapPattern::SiteswapPattern(const std::string s)
 	{
 		for (size_t h = 0; h != NumberOfHands; ++h)
 		{
-			const std::vector<SiteswapThrow>& throws =
-				pattern[b][h].getThrows();
+			const SiteswapHand::ThrowsType& throws = pattern[b][h].getThrows();
 			for (size_t i = 0; i != throws.size(); ++i)
 			{
 				const SiteswapThrow& t = throws[i];

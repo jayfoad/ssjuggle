@@ -37,33 +37,42 @@ public:
 // What a hand does on each beat: throw zero or more balls.
 class SiteswapHand
 {
-	std::vector<SiteswapThrow> throws;
-
 public:
+	typedef std::vector<SiteswapThrow> ThrowsType;
+
 	// Constructors.
 	SiteswapHand() {}
 	SiteswapHand(const SiteswapThrow& t) : throws(1, t) {}
-	SiteswapHand(const std::vector<SiteswapThrow>& t);
+	SiteswapHand(const ThrowsType& t);
 
 	// Accessors.
-	const std::vector<SiteswapThrow>& getThrows() const { return throws; };
+	const ThrowsType& getThrows() const { return throws; };
 
 	// Print to a stream.
 	void print(std::ostream& out) const;
+
+private:
+	ThrowsType throws;
 };
 
 // What each hand does on each beat.
 class SiteswapPattern
 {
-	boost::multi_array<SiteswapHand, 2> pattern;
-
 public:
+	typedef boost::multi_array<SiteswapHand, 2> PatternType;
+
 	// Construct from a string.
 	SiteswapPattern(const std::string s);
+
+	// Accessors.
+	const PatternType& getPattern() const { return pattern; }
 
 	// Convenience functions.
 	size_t getBeats() const { return pattern.shape()[0]; }
 
 	// Print to a stream.
 	void print(std::ostream& out) const;
+
+private:
+	PatternType pattern;
 };
