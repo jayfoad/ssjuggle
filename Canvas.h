@@ -8,6 +8,7 @@ public:
 	virtual void moveTo(double x, double y) = 0;
 	virtual void lineTo(double x, double y) = 0;
 	virtual void circle(double x, double y, double r) = 0;
+	virtual void arc(double x, double y, double r, double a, double b) = 0;
 	virtual void stroke() = 0;
 	virtual void fill() = 0;
 };

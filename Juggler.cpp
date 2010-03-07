@@ -8,7 +8,7 @@ namespace
 {
 	const double gravity = 9.80665;
 	const double dwellRatio = 0.3;
-	const double ballRadius = 0.04;
+	const double ballRadius = 0.05;
 }
 
 Juggler::Juggler(const SiteswapPattern& p) :
@@ -55,7 +55,13 @@ void Juggler::render(Canvas& c, double t) const
 	// Head
 	c.circle(0.00, 0.70, 0.10);
 
-	// Draw man.
+#if 0
+	// Hair
+	c.arc(-0.25, 0.70, 0.15, -0.4 * M_PI, 0.0);
+	c.arc(+0.25, 0.70, 0.15, M_PI, 1.4 * M_PI);
+#endif
+
+	// Draw (wo)man.
 	c.stroke();
 
 	// Render each throw.

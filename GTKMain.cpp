@@ -20,10 +20,10 @@ public:
 	CairoCanvas(Cairo::RefPtr<Cairo::Context> c) :
 		context(c)
 	{
-		context->set_source_rgb(1.0, 1.0, 1.0);
+		context->set_source_rgb(0.0, 0.0, 0.0);
 		context->paint();
 
-		context->set_source_rgb(0.0, 0.0, 0.0);
+		context->set_source_rgb(1.0, 1.0, 1.0);
 	}
 
 	virtual void setColour(double r, double g, double b)
@@ -45,6 +45,12 @@ public:
 	{
 		context->begin_new_sub_path();
 		context->arc(x, y, r, 0, 2 * M_PI);
+	}
+
+	virtual void arc(double x, double y, double r, double a, double b)
+	{
+		context->begin_new_sub_path();
+		context->arc(x, y, r, a, b);
 	}
 
 	virtual void stroke()
