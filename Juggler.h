@@ -1,3 +1,6 @@
+#ifndef JUGGLER_H
+#define JUGGLER_H
+
 #include "Siteswap.h"
 
 class Canvas;
@@ -21,3 +24,5 @@ public:
 protected:
 	void renderThrow(Canvas& c, const SiteswapThrow& t, float b) const;
 };
+
+#endif // JUGGLER_H

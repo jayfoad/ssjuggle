@@ -1,11 +1,13 @@
-CXXFLAGS = -g -Wall
+PACKAGES = cairomm-1.0 gtkmm-2.4
+CXXFLAGS = -g -Wall `pkg-config --cflags $(PACKAGES)`
+LDFLAGS = `pkg-config --libs $(PACKAGES)`
 
 all : ssparse ssjuggle
 
 ssparse : Siteswap.o SSParse.o Utility.o
 	$(LINK.cc) $^ $(LOADLIBES) $(LDLIBS) -o $@
 
-ssjuggle : Juggler.o Siteswap.o Utility.o
+ssjuggle : GTKMain.o Juggler.o Siteswap.o Utility.o
 	$(LINK.cc) $^ $(LOADLIBES) $(LDLIBS) -o $@
 
 GOODFILE = patterns

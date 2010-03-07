@@ -1,3 +1,6 @@
+#ifndef SITESWAP_H
+#define SITESWAP_H
+
 #include <boost/multi_array.hpp>
 #include <iostream>
 #include <string>
@@ -76,3 +79,5 @@ public:
 private:
 	PatternType pattern;
 };
+
+#endif // SITESWAP_H

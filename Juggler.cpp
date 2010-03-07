@@ -22,18 +22,23 @@ void Juggler::getBoundingBox(/* out */ float& left, float& right,
 void Juggler::render(Canvas& c, float t) const
 {
 	// Legs
-	c.line(-0.20f, -1.20f, 0.00f, -0.30f);
-	c.line(+0.20f, -1.20f, 0.00f, -0.30f);
+	c.moveTo(-0.20f, -1.20f);
+	c.lineTo(0.00f, -0.30f);
+	c.lineTo(+0.20f, -1.20f);
 
 	// Body
-	c.line(0.00f, -0.30f, 0.00f, 0.45f);
+	c.moveTo(0.00f, -0.30f);
+	c.lineTo(0.00f, 0.45f);
 
 	// Upper arms
-	c.line(-0.25f, 0.00f, 0.00f, 0.40f);
-	c.line(+0.25f, 0.00f, 0.00f, 0.40f);
+	c.moveTo(-0.25f, 0.00f);
+	c.lineTo(0.00f, 0.40f);
+	c.lineTo(+0.25f, 0.00f);
 
 	// Head
-	c.circle(0.00f, 0.45f, 0.10f);
+	c.circle(0.00f, 0.55f, 0.10f);
+
+	c.stroke();
 
 	// Get the fractional beat index.
 	assert(t >= 0);

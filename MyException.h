@@ -1,3 +1,6 @@
+#ifndef MYEXCEPTION_H
+#define MYEXCEPTION_H
+
 #include <exception>
 #include <string>
 
@@ -14,3 +17,5 @@ public:
 	MyException(const std::string m) : message(m) {}
 	virtual ~MyException() throw() {}
 };
+
+#endif // MYEXCEPTION_H
