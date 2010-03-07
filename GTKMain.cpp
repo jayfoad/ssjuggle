@@ -21,6 +21,11 @@ public:
 		context->set_source_rgb(0.0, 0.0, 0.0);
 	}
 
+	virtual void setColour(float r, float g, float b)
+	{
+		context->set_source_rgb(r, g, b);
+	}
+
 	virtual void moveTo(float x, float y)
 	{
 		context->move_to(x, y);
@@ -40,6 +45,11 @@ public:
 	virtual void stroke()
 	{
 		context->stroke();
+	}
+
+	virtual void fill()
+	{
+		context->fill();
 	}
 };
 
