@@ -7,6 +7,8 @@
 namespace
 {
 	const double gravity = -9.80665;
+	const double dwellRatio = 0.3;
+	const double ballRadius = 0.03;
 }
 
 Juggler::Juggler(const SiteswapPattern& p) :
@@ -18,10 +20,16 @@ Juggler::Juggler(const SiteswapPattern& p) :
 void Juggler::getBoundingBox(/* out */ double& left, double& right,
 	double& bottom, double& top) const
 {
-	left = -0.25;
-	right = +0.25;
+	left = -0.40;
+	right = +0.40;
 	bottom = -0.80;
 	top = 0.80;
+
+	// ??? don't do this if max throw is a 1x or 2 ?
+	double dt =
+		(pattern.getMaxThrowHeight() - 2 * dwellRatio) / beatsPerSecond;
+	double h = -gravity * dt * dt / 8;
+	top = std::max(top, h + ballRadius);
 }
 
 void Juggler::render(Canvas& c, double t) const
