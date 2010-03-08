@@ -81,6 +81,10 @@ void Juggler::render(Canvas& c, double t) const
 void Juggler::renderThrow(Canvas& c, size_t start, size_t hand,
 	const SiteswapThrow& t, double time) const
 {
+	if (t.getHeight() <= 2 && t.getCross() == 0)
+		// 1x and 2 "throws" stay in the hand.
+		return;
+
 	double throwStartBeat = start + 2 * dwellRatio;
 	double throwEndBeat = start + t.getHeight();
 
@@ -97,8 +101,11 @@ void Juggler::renderThrow(Canvas& c, size_t start, size_t hand,
 
 	for (; time < throwEndTime; time += period)
 	{
-		double x1 = hand ? 0.10 : - 0.10;
-		double x2 = (hand ^ t.getCross()) ? 0.50 : -0.50;
+		const double throwX[NumberOfHands] = { -0.10, 0.10 };
+		const double catchX[NumberOfHands] = { -0.50, 0.50 };
+
+		double x1 = throwX[hand];
+		double x2 = catchX[(hand + t.getCross()) % NumberOfHands];
 		double x = x1
 			+ (time - throwStartTime) / (throwEndTime - throwStartTime)
 			* (x2 - x1);
