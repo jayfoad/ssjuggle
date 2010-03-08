@@ -38,20 +38,6 @@ void Juggler::render(Canvas& c, double t) const
 	assert(t >= 0);
 	t = std::fmod(t, pattern.getBeats() / beatsPerSecond);
 
-	// Legs
-	c.moveTo(-0.25, -0.80);
-	c.lineTo(0.00, -0.10);
-	c.lineTo(+0.25, -0.80);
-
-	// Body
-	c.moveTo(0.00, -0.10);
-	c.lineTo(0.00, 0.60);
-
-	// Upper arms
-	c.moveTo(-0.25, 0.00);
-	c.lineTo(0.00, 0.50);
-	c.lineTo(+0.25, 0.00);
-
 	// Head
 	c.circle(0.00, 0.70, 0.10);
 
@@ -61,6 +47,23 @@ void Juggler::render(Canvas& c, double t) const
 		c.arc(-0.25, 0.70, 0.15, -0.4 * M_PI, 0.0);
 		c.arc(+0.25, 0.70, 0.15, M_PI, 1.4 * M_PI);
 	}
+
+	// Body
+	c.moveTo(0.00, -0.10);
+	c.lineTo(0.00, 0.60);
+
+	// Legs
+	c.moveTo(-0.25, -0.80);
+	c.lineTo(0.00, -0.10);
+	c.lineTo(+0.25, -0.80);
+
+	// Upper arms
+	c.moveTo(-0.25, 0.00);
+	c.lineTo(0.00, 0.50);
+	c.lineTo(+0.25, 0.00);
+
+	// Lower arms
+	// ???
 
 	// Draw juggler.
 	c.stroke();
