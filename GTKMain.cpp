@@ -148,6 +148,7 @@ int main(int argc, char** argv)
 	Gtk::Main kit(argc, argv);
 
 	Gtk::Window window;
+	window.set_default_size(600, 600);
 	window.set_title("Juggler");
 	window.set_app_paintable(true);
 	window.set_double_buffered(false);
