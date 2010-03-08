@@ -5,7 +5,9 @@
 
 #include "Canvas.h"
 #include "Juggler.h"
+#include "MyException.h"
 #include "Siteswap.h"
+#include "Utility.h"
 
 namespace
 {
@@ -138,26 +140,34 @@ protected:
 
 int main(int argc, char** argv)
 {
+	setProgramName(argv[0]);
+
 	if (argc != 2)
-		// ???
-		;
+		Usage("usage: ssjuggle <siteswap>");
 
-	SiteswapPattern pattern(argv[1]);
-	Juggler juggler(pattern);
+	try
+	{
+		SiteswapPattern pattern(argv[1]);
+		Juggler juggler(pattern);
 
-	Gtk::Main kit(argc, argv);
+		Gtk::Main kit(argc, argv);
 
-	Gtk::Window window;
-	window.set_default_size(600, 600);
-	window.set_title("Juggler");
-	window.set_app_paintable(true);
-	window.set_double_buffered(false);
+		Gtk::Window window;
+		window.set_default_size(600, 600);
+		window.set_title("Juggler");
+		window.set_app_paintable(true);
+		window.set_double_buffered(false);
 
-	MyDrawingArea d(juggler);
-	window.add(d);
-	d.show();
+		MyDrawingArea d(juggler);
+		window.add(d);
+		d.show();
 
-	Gtk::Main::run(window);
+		Gtk::Main::run(window);
+	}
+	catch (MyException& e)
+	{
+		Fatal(e.what());
+	}
 
 	return 0;
 }
