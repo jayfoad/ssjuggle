@@ -130,6 +130,8 @@ void Juggler::render(Canvas& c, double t) const
 
 	// Render each throw.
 	c.setColour(1.0, 0.5, 0.5);
+	bool handsFull[NumberOfHands];
+	std::fill(handsFull, handsFull + NumberOfHands, false);
 	for (size_t i = 0; i != pattern.getBeats(); ++i)
 	{
 		for (size_t h = 0; h != NumberOfHands; ++h)
@@ -137,27 +139,46 @@ void Juggler::render(Canvas& c, double t) const
 			const SiteswapHand::ThrowsType& throws =
 				pattern.getPattern()[i][h].getThrows();
 			for (size_t j = 0; j != throws.size(); ++j)
-				renderThrow(c, i, h, throws[j], t);
+				renderThrow(c, i, h, throws[j], t, handsFull);
+		}
+	}
+
+	// Draw balls in hands.
+	for (size_t h = 0; h != NumberOfHands; ++h)
+	{
+		if (handsFull[h])
+		{
+			c.circle(handX[h], 0.0, ballRadius);
+			c.fill();
 		}
 	}
 }
 
 void Juggler::renderThrow(Canvas& c, size_t start, size_t hand,
-	const SiteswapThrow& t, double time) const
+	const SiteswapThrow& t, double time, bool* handsFull) const
 {
-	if (t.getHeight() <= 2 && t.getCross() == 0)
-		// 1x and 2 "throws" stay in the hand.
-		return;
+	double period = pattern.getBeats() / beatsPerSecond;
 
-	double throwStartBeat = start + 2 * dwellRatio;
+	double holdStartTime = start / beatsPerSecond;
+	for (; time < holdStartTime; time += period)
+		;
+
 	double throwEndBeat = start + t.getHeight();
-
-	double throwStartTime = throwStartBeat / beatsPerSecond;
 	double throwEndTime = throwEndBeat / beatsPerSecond;
 
-	double period = pattern.getBeats() / beatsPerSecond;
+	if (t.getHeight() <= 2 && t.getCross() == 0)
+	{
+		// 1x and 2 "throws" stay in the hand.
+		for (; time < throwEndTime; time += period)
+			handsFull[hand] = true;
+		return;
+	}
+
+	double throwStartBeat = start + 2 * dwellRatio;
+	double throwStartTime = throwStartBeat / beatsPerSecond;
+
 	for (; time < throwStartTime; time += period)
-		;
+		handsFull[hand] = true;
 
 	for (; time < throwEndTime; time += period)
 	{

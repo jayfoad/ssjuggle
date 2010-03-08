@@ -36,7 +36,7 @@ public:
 
 protected:
 	void renderThrow(Canvas& c, size_t start, size_t hand,
-		const SiteswapThrow& t, double time) const;
+		const SiteswapThrow& t, double time, bool* handsFull) const;
 };
 
 #endif // JUGGLER_H
