@@ -55,11 +55,12 @@ void Juggler::render(Canvas& c, double t) const
 	// Head
 	c.circle(0.00, 0.70, 0.10);
 
-#if 0
-	// Hair
-	c.arc(-0.25, 0.70, 0.15, -0.4 * M_PI, 0.0);
-	c.arc(+0.25, 0.70, 0.15, M_PI, 1.4 * M_PI);
-#endif
+	if (false)
+	{
+		// Hair
+		c.arc(-0.25, 0.70, 0.15, -0.4 * M_PI, 0.0);
+		c.arc(+0.25, 0.70, 0.15, M_PI, 1.4 * M_PI);
+	}
 
 	// Draw (wo)man.
 	c.stroke();
