@@ -103,7 +103,7 @@ namespace
 			if (string[i] >= '0' && string[i] <= '9')
 				return string[i++] - '0';
 			if (string[i] >= 'a' && string[i] <= 'z')
-				return string[i++] - 'z';
+				return string[i++] - 'a' + 10;
 			throw SiteswapParserException(i,
 				"expected alphanumeric throw height");
 		}
