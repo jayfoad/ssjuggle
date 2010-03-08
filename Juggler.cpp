@@ -62,7 +62,7 @@ void Juggler::render(Canvas& c, double t) const
 		c.arc(+0.25, 0.70, 0.15, M_PI, 1.4 * M_PI);
 	}
 
-	// Draw (wo)man.
+	// Draw juggler.
 	c.stroke();
 
 	// Render each throw.
