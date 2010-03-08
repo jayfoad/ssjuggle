@@ -88,16 +88,12 @@ void Juggler::renderThrow(Canvas& c, size_t start, size_t hand,
 	double throwStartBeat = start + 2 * dwellRatio;
 	double throwEndBeat = start + t.getHeight();
 
-	double startTime = start / beatsPerSecond;
 	double throwStartTime = throwStartBeat / beatsPerSecond;
 	double throwEndTime = throwEndBeat / beatsPerSecond;
 
 	double period = pattern.getBeats() / beatsPerSecond;
-	for (; time < startTime; time += period)
-		;
-
 	for (; time < throwStartTime; time += period)
-		; // ??? mark hand as full
+		;
 
 	for (; time < throwEndTime; time += period)
 	{
