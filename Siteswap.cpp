@@ -222,15 +222,15 @@ namespace
 SiteswapPattern::SiteswapPattern(const std::string s) :
 	maxThrowHeight(0)
 {
-	SiteswapParser parse(pattern, s);
+	{
+		SiteswapParser parse(pattern, s);
+	}
 
-	// ??? get rid of redundant repetition if we have parsed e.g. "5353"
-	// instead of just "53"
+	size_t total = 0;
 
 	// Check that the pattern is valid.
 	boost::multi_array<size_t, 2>
 		check(boost::extents[getBeats()][NumberOfHands]);
-	size_t total = 0;
 	for (size_t b = 0; b != getBeats(); ++b)
 	{
 		for (size_t h = 0; h != NumberOfHands; ++h)
@@ -243,6 +243,8 @@ SiteswapPattern::SiteswapPattern(const std::string s) :
 					[(b + t.getHeight()) % getBeats()]
 					[(h + t.getCross()) % NumberOfHands];
 
+				// Also record the maximum throw height and the total of all
+				// throw heights.
 				maxThrowHeight = std::max(maxThrowHeight, t.getHeight());
 				total += t.getHeight();
 			}
@@ -262,6 +264,9 @@ SiteswapPattern::SiteswapPattern(const std::string s) :
 
 	assert(total % getBeats() == 0);
 	numberOfBalls = total / getBeats();
+
+	// ??? get rid of redundant repetition if we have parsed e.g. "5353"
+	// instead of just "53"
 }
 
 void SiteswapPattern::print(std::ostream& out) const
